@@ -27,6 +27,9 @@ function parse(opts) {
     });
     return (api) => {
         let apiInterface = interfaces.find(i => i.name === api) || null;
+        /**
+         * Add methods of import(many is used in `extends`)
+         */
         const allImportObject = interfaces
             .filter(i => (apiInterface === null || apiInterface === void 0 ? void 0 : apiInterface.importObject.includes(i.name)) && i.name !== api)
             .map(i => i.importObject);
@@ -135,7 +138,7 @@ function getInterface(typeChecker, node) {
         tags: (docs === null || docs === void 0 ? void 0 : docs.tags) || [],
         methods,
         properties,
-        importObject: [...importObject]
+        importObject: [...importObject].filter((d) => d !== interfaceName)
     };
     return i;
 }
